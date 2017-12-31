@@ -18,12 +18,12 @@ class Zaif(Exchange):
 
     def setTrades(self, f_trades, jpy):
         self.trades = pd.read_csv(f_trades, parse_dates=['日時'])
-        self.trades['日時'] += pd.offsets.Day(0, normalize=True)
+        self.trades['日時'] = self.trades['日時'].dt.normalize()
         self.trades = pd.merge(self.trades, jpy.getJPY(), left_on='日時', right_on='snapped_at', how='left')
 
     def setWithdraws(self, f_withdraws, jpy):
         self.withdraws = pd.read_csv(f_withdraws, parse_dates=['日時'])
-        self.withdraws['日時'] += pd.offsets.Day(0, normalize=True)
+        self.withdraws['日時'] = self.withdraws['日時'].dt.normalize()
         self.withdraws = pd.merge(self.withdraws, jpy.getJPY(), left_on='日時', right_on='snapped_at', how='left')
 
     def calcResult(self):

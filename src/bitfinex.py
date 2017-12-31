@@ -12,7 +12,7 @@ class BitFinex(Exchange):
 
     def setTrades(self, f_trades, jpy):
         self.trades = pd.read_csv(f_trades, parse_dates=['Date'])
-        self.trades['Date'] += pd.offsets.Day(0, normalize=True)
+        self.trades['Date'] = self.trades['Date'].dt.normalize()
         self.trades = pd.merge(self.getTrades(), jpy.getJPY(), left_on='Date', right_on='snapped_at', how='left')
 
     def calcResult(self):

@@ -17,12 +17,12 @@ class Cryptopia(Exchange):
 
     def setTrades(self, f_trades, jpy):
         self.trades = pd.read_csv(f_trades, parse_dates=['Timestamp'], dayfirst=True)
-        self.trades['Timestamp'] += pd.offsets.Day(0, normalize=True)
+        self.trades['Timestamp'] = self.trades['Timestamp'].dt.normalize()
         self.trades = pd.merge(self.trades, jpy.getJPY(), left_on='Timestamp', right_on='snapped_at', how='left')
 
     def setWithdraws(self, f_withdraws, jpy):
         self.withdraws = pd.read_csv(f_withdraws, parse_dates=['Timestamp'], dayfirst=True)
-        self.withdraws['Timestamp'] += pd.offsets.Day(0, normalize=True)
+        self.withdraws['Timestamp'] = self.withdraws['Timestamp'].dt.normalize()
         self.withdraws = pd.merge(self.withdraws, jpy.getJPY(), left_on='Timestamp', right_on='snapped_at', how='left')
 
     def calcResult(self):
