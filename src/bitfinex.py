@@ -12,8 +12,8 @@ class BitFinex(Exchange):
 
     def setTrades(self, f_trades, jpy):
         self.trades = pd.read_csv(f_trades, parse_dates=['Date'])
-        self.trades['Date'] += pd.offsets.BDay(normalize=True)
-        self.trades = pd.merge(pd.merge(pd.merge(self.getTrades(), jpy.getBTC(), left_on='Date', right_on='snapped_at'), jpy.getBCH(), left_on='Date', right_on='snapped_at'), jpy.getUSD(), left_on='Date', right_on='snapped_at')
+        self.trades['Date'] += pd.offsets.Day(0, normalize=True)
+        self.trades = pd.merge(self.getTrades(), jpy.getJPY(), left_on='Date', right_on='snapped_at', how='left')
 
     def calcResult(self):
         result = {'Fee':0.0}
