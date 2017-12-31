@@ -21,7 +21,7 @@ class BitFlyer(Exchange):
     def setWithdraws(self, f_withdraws, jpy):
         self.withdraws = pd.read_csv(f_withdraws, parse_dates=['取引日時'])
         self.withdraws['取引日時'] += pd.offsets.BDay(normalize=True)
-        self.withdraws = pd.merge(pd.merge(self.withdraws, jpy.getBTC(), left_on='取引日時', right_on='snapped_at'), jpy.getBCH(), left_on='取引日時', right_on='snapped_at')
+        self.withdraws = pd.merge(self.withdraws, jpy.getJPY(), left_on='取引日時', right_on='snapped_at', how='left')
 
     def calcResult(self):
         result = {'Fee':0.0}
