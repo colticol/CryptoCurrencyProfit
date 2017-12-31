@@ -9,7 +9,7 @@ from controller import Controller
 
 def main():
     # Set Holds
-    holds = {'BTC':0.0001, 'BCH':45.37983532, 'ZAIF':2154694.4}
+    holds = {'BTC':0.5, 'BCH':3.0, 'ZAIF':50.5}
     # Read JPY/USD, BTC/JPY, BCH/JPY
     jpy = JPY('../data/2017/jpy/USDJPY.csv', '../data/2017/jpy/btc-jpy-max.csv', '../data/2017/jpy/bch-jpy-max.csv')
     # Join JPY Data When Read History of Each Exchange
@@ -24,6 +24,7 @@ def main():
     # Init Controller
     controller = Controller([bitfinex, cryptopia, bitflyer, zaif])
     # Calculate Result of Each Exchange
+    print('format : 通貨 (売却額 - 購入額, 売却数, 購入数, 売却額総平均, 購入額総平均')
     controller.calcExchangeResult()
     # controller.printExchangeSummary()
     # Calculate Result of Currencies
