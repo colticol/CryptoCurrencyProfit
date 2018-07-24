@@ -8,18 +8,17 @@ class Total(object):
         self.p_sell = 0.0 # 売った額(jpy)
         self.n_sell = 0.0 # 売った数(currency)
 
-    def getDiffPrice(self):
-        return self.p_sell - self.p_buy
+    def getBuyPrice(self):
+        return self.p_buy
 
-    def getSellTotalAverage(self):
-        return self.divide(self.p_sell, self.n_sell)
+    def getSellPrice(self):
+        return self.p_sell
 
-    def getBuyTotalAverage(self):
-        return self.divide(self.p_buy, self.n_buy)
+    def getBuyAmount(self):
+        return self.n_buy
 
-    def getSummary(self):
-        # 売却額 - 購入額, 売却数, 購入数, 売却額総平均, 購入額総平均
-        return self.p_sell - self.p_buy, self.n_sell, self.n_buy, self.divide(self.p_sell, self.n_sell), self.divide(self.p_buy, self.n_buy)
+    def getSellAmount(self):
+        return self.n_sell
 
     def buy(self, price, amount):
         self.p_buy += price
@@ -28,6 +27,12 @@ class Total(object):
     def sell(self, price, amount):
         self.p_sell += price
         self.n_sell += amount
+
+    def getBuyTotalAverage(self):
+        return self.divide(self.p_buy, self.n_buy)
+
+    def getSellTotalAverage(self):
+        return self.divide(self.p_sell, self.n_sell)
 
     def divide(self, x, y):
         if y == 0:
