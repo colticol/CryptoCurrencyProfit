@@ -42,17 +42,12 @@ class Controller(object):
             else:
                 print(currency, total.getSummary())
 
-    def calcProfit(self, hold):
+    def calcProfit(self, jpy_deposit, jpy_withdrow, hold):
         profit = 0.0
-        for currency, total in self.currencies.items():
-            if currency == 'Fee':
-                profit -= total
-            else:
-                profit += total.getDiffPrice()
         for currency, amount in hold.items():
             currency = self.currencies[currency]
             if amount > 0:
                 profit += currency.getBuyTotalAverage() * amount
             else:
                 profit += currency.getSellTotalAverage() * amount
-        return profit
+        return profit + jpy_withdrow - jpy_deposit
