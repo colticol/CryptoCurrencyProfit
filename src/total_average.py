@@ -21,13 +21,13 @@ def setLastYear(holds, prices):
 
 def main():
     # Set Last Year Holds and Total Average
-    last_holds = {}
-    last_price = {}
+    last_holds = {'BCH':45.37983532, 'ZAIF':2154694.4}
+    last_price = {'BCH':161904.61979921136, 'ZAIF':0.8154790926917522}
     # Set JPY Withdraw and Deposit
-    jpy_deposit  = 3000000
-    jpy_withdraw = 0
+    jpy_deposit  = 0
+    jpy_withdraw = 1450000
     # Set Holds
-    assets = {'JPY':0.0 + jpy_withdraw, 'BTC':0.0001, 'BCH':45.37983532, 'ZAIF':2154694.4}
+    assets = {'JPY':72068. + jpy_withdraw, 'BCH':43., 'ZAIF':500000}
 
     # Initialize Controller
     default, value = setLastYear(last_holds, last_price)
@@ -35,19 +35,13 @@ def main():
     funds = jpy_deposit + value
 
     # Read JPY/USD, BTC/JPY, BCH/JPY
-    jpy = JPY('../data/2017/jpy/USDJPY.csv', '../data/2017/jpy/btc-jpy-max.csv', '../data/2017/jpy/bch-jpy-max.csv')
+    jpy = JPY('../data/2018/jpy/USDJPY.csv', '../data/2018/jpy/btc-jpy-max.csv', '../data/2018/jpy/bch-jpy-max.csv')
     # Join JPY Data When Read History of Each Exchange
-    # Read Trade (and Withdraw) History of Bitfinex
-    bitfinex = BitFinex('../data/2017/bitfinex/2017-12-28-trades.csv', jpy)
-    # Read Trade (and Withdraw) History of Cryptopia
-    cryptopia = Cryptopia('../data/2017/cryptopia/Trade_History.csv', jpy)
-    # Read Trade (and Withdraw) History of Bitflyer
-    bitflyer = BitFlyer('../data/2017/bitflyer/TradeHistory_20171228.csv', jpy)
     # Read Trade (and Withdraw) History of Zaif
-    zaif = Zaif('../data/2017/zaif/trade.csv', jpy)
+    zaif = Zaif('../data/2018/zaif/trade.csv', jpy)
 
     # Calculate All Total
-    exchanges = [bitfinex, cryptopia, bitflyer, zaif]
+    exchanges = [zaif]
     for exchange in exchanges:
         controller = exchange.calcTotal(controller)
     # Print Summary
