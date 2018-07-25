@@ -34,9 +34,11 @@ class TotalController(object):
     def calcProfit(self, funds, assets):
         profit = 0.0
         for currency, amount in assets.items():
-            total = self.total_dict[currency]
-            if amount > 0:
-                profit += total.getBuyTotalAverage() * amount
+            if amount < 0:
+                print('calcProfit : invalid amount [{0}]'.format(amount))
+            elif currency == 'JPY':
+                profit += 1.0 * amount
             else:
-                profit += total.getSellTotalAverage() * amount
+                total = self.total_dict[currency]
+                profit += total.getBuyTotalAverage() * amount
         return profit - funds
