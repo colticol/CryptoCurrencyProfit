@@ -8,13 +8,15 @@ from total import Total
 from total_controller import TotalController
 
 
-def getDefaultDict(holds, prices):
+def setLastYear(holds, prices):
     default = {}
+    value = 0
     for currency, amount in holds.items():
         price = prices[currency]
         default[currency] = Total()
         default[currency].buy(price * amount, amount)
-    return default
+        value += price * amount
+    return default, value
 
 
 def main():
@@ -25,11 +27,12 @@ def main():
     jpy_deposit  = 3000000
     jpy_withdraw = 0
     # Set Holds
-    holds = {'BTC':0.0001, 'BCH':45.37983532, 'ZAIF':2154694.4}
+    assets = {'JPY':0.0 + jpy_withdraw, 'BTC':0.0001, 'BCH':45.37983532, 'ZAIF':2154694.4}
 
-     # Initialize Controller
-    default = getDefaultDict(last_holds, last_price)
+    # Initialize Controller
+    default, value = setLastYear(last_holds, last_price)
     controller = TotalController(default)
+    funds = jpy_deposit + value
 
     # Read JPY/USD, BTC/JPY, BCH/JPY
     jpy = JPY('../data/2017/jpy/USDJPY.csv', '../data/2017/jpy/btc-jpy-max.csv', '../data/2017/jpy/bch-jpy-max.csv')
@@ -50,7 +53,7 @@ def main():
     # Print Summary
     controller.printSummary()
     # Calculate Profit
-    print('Profit :', controller.calcProfit(jpy_deposit, jpy_withdraw, holds))
+    print('Profit :', controller.calcProfit(funds, assets))
 
 
 if __name__ == '__main__':
